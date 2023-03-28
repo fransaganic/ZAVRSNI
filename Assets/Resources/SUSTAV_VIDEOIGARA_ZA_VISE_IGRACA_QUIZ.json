@@ -1,0 +1,112 @@
+{
+  "Lesson": 1,
+  "Questions": [
+    {
+      "QuestionText": "Skalabilnost je mogućnost rasta sustava, a da se pritom narušava njegova funkcionalnost.",
+      "Answers": [
+        {
+          "AnswerText": "točno",
+          "IsCorrect": false
+        },
+        {
+          "AnswerText": "netočno",
+          "IsCorrect": true
+        }
+      ]
+    },
+    {
+      "QuestionText": "Za koju se od navedenih arhitektura veže problem uskog grla?",
+      "Answers": [
+        {
+          "AnswerText": "za arhitekturu klijent-poslužitelj",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "za arhitekturu ravnopravnih klijenata",
+          "IsCorrect": false
+        }
+      ]
+    },
+    {
+      "QuestionText": "U kojoj su od navedenih arhitektura svi klijenti međusobno povezani?",
+      "Answers": [
+        {
+          "AnswerText": "U arhitekturi klijent-poslužitelj.",
+          "IsCorrect": false
+        },
+        {
+          "AnswerText": "U arhitekturi ravnopravnih klijenata.",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "U arhitekturi klijent kao poslužitelj.",
+          "IsCorrect": false
+        }
+      ]
+    },
+    {
+      "QuestionText": "Koji su nedostaci arhitekture ravnopravnih klijenata?",
+      "Answers": [
+        {
+          "AnswerText": "loša kontrola varanja",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "problem uskog grla",
+          "IsCorrect": false
+        },
+        {
+          "AnswerText": "problem konzistencije",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "skalabilnost",
+          "IsCorrect": false
+        }
+      ]
+    },
+    {
+      "QuestionText": "Koju je arhitekturu bolje koristiti u razvoju videoigara?",
+      "Answers": [
+        {
+          "AnswerText": "Bolje je koristiti arhitekturu klijent-poslužitelj.",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "Bolje je koristiti arhitekturu ravnopravnih klijenata.",
+          "IsCorrect": false
+        },
+        {
+          "AnswerText": "Arhitekture su jednako dobre.",
+          "IsCorrect": false
+        }
+      ]
+    },
+    {
+      "QuestionText": "Priključnice (engl. sockets) se vežu isključivo uz protokol TCP.",
+      "Answers": [
+        {
+          "AnswerText": "točno",
+          "IsCorrect": false
+        },
+        {
+          "AnswerText": "netočno",
+          "IsCorrect": true
+        }
+      ]
+    },
+    {
+      "QuestionText": "Uz koju se arhitekturu vežu pozivi udaljenih procedura?",
+      "Answers": [
+        {
+          "AnswerText": "Uz arhitekturu klijent-poslužitelj.",
+          "IsCorrect": true
+        },
+        {
+          "AnswerText": "Uz arhitekturu ravnopravnih klijenata.",
+          "IsCorrect": false
+        }
+      ]
+    }
+  ]
+}

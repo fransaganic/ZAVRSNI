@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="pm19-110-murder" size="1.000000 1.392857" />
+    <ImageTarget name="neo-294-plains" size="1.000000 1.392857" />
+    <ImageTarget name="afr-314-manticore" size="1.000000 1.392857" />
+    <ImageTarget name="301-Forest" size="1.000000 1.396226" />
+    <ImageTarget name="297-Swamp" size="1.000000 1.396226" />
+  </Tracking>
+</QCARConfig>

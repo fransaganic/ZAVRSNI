@@ -1,0 +1,13 @@
+{
+  "Lesson": 1,
+  "LessonElements": [
+    {
+      "LessonImageFilePath": "",
+      "LessonText": "Skalabilnost je mogućnost rasta sustava, a da se pritom ne narušava funkciolanost sustava. Skalabilnost ima značajnu ulogu u mrežnim videoigrama u kojima se očekuje velik broj igrača, na primjer u MMORGP igrama.\nGlavni problemi skalabilnosti su:\n- izračunavanje stanja virtualnog svijeta,\n- održavanje konzistentnosti stanja virtualnog svijeta,\n-kontrola varanja te\n- potreba proizvođača da održava dovoljan broj poslužitelja.\nZa problem skalabilnosti u mrežnim videoigrama koriste se dva arhitekturna rješenja - velike poslužiteljske farme i 'komadanje' virtualnog svijeta."
+    },
+    {
+      "LessonImageFilePath": "slika-klijent-posluzitelj",
+      "LessonText": "Arhitektura klijent-poslužitelj je tradicionalna arhitektura u kojoj jedno računalo ima ulogu klijenta, a drugo ulogu poslužitelja. Rad arhitekture temelji se na tome da klijent šalje zahtjeve poslužitelju, a poslužitelj obrađuje zahtjev i šalje odgovor klijentu. U slučaju više klijenata, sva komunikacija ide putem poslužitelja.\nU umreženim igrama je arhitektura bitna za očuvanje zajedničkog dijeljenog stanja pri čemu svi zahtjevi idu preko poslužitelja. Kad se na klijentu promijeni stanje, klijent šalje zahtjev za obradu novog stanja poslužitelju. Poslužitelj obradi stanje i informaciju o novom stanju šalje svim klijentima. Poslužitelj pritom osigurava konzistentnost i ispravnost promijenjenog stanja na svim klijentima.\nNedostatak arhitekture klijent-poslužitelj je pojava problema uskog grla. Što je više klijenata, to je opterećenje na poslužitelj veće što dovodi do dugih čekanja na obradu zahtjeva, kašnjenja i potencijalnog rušenja sustava pod opterećenjem."
+    }
+  ]
+}
