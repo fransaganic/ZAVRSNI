@@ -20,6 +20,8 @@ namespace ARudzbenik.ARContent
 
         private void Awake()
         {
+            if (!_useFunctionality) Destroy(this);
+
             _animator = GetComponent<Animator>();
             if (_animator == null) Destroy(this);
 
@@ -37,11 +39,10 @@ namespace ARudzbenik.ARContent
 
         private void OnEnable()
         {
-            if (_useFunctionality)
-            {
-                _isActive = true;
-                OnAnimatedContentShowAction?.Invoke();
-            }
+            _animator.enabled = true;
+            _animator.Play(_DEFAULT_STATE);
+            _isActive = true;
+            OnAnimatedContentShowAction?.Invoke();
         }
 
         private void OnDisable()
@@ -57,7 +58,11 @@ namespace ARudzbenik.ARContent
 
         private void OnReplay()
         {
-            if (_isActive) _animator.Play(_DEFAULT_STATE);
+            if (_isActive)
+            {
+                _animator.enabled = true;
+                _animator.Play(_DEFAULT_STATE);
+            }
         }
 
         private void OnStop()

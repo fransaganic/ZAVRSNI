@@ -53,6 +53,7 @@ namespace ARudzbenik.UserInterface
 
         public void InitializeOnClick(Action onClickAction)
         {
+            if (_button == null) _button = GetComponent<Button>();
             _button.onClick.AddListener(() => AnimateClick(onClickAction));
         }
 
