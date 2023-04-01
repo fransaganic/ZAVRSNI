@@ -58,7 +58,11 @@ namespace ARudzbenik.ARContent
 
         private void OnReplay()
         {
-            if (_isActive) _animator.Play(_DEFAULT_STATE);
+            if (_isActive)
+            {
+                _animator.enabled = true;
+                _animator.Play(_DEFAULT_STATE);
+            }
         }
 
         private void OnStop()
