@@ -1,6 +1,5 @@
 using ARudzbenik.Data;
 using ARudzbenik.General;
-using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -15,47 +14,34 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private AnimatedButton _menuButton = null;
         [SerializeField] private GameObject _raycastBlocker = null;
         [Header("Lesson Picker Container")]
-        [SerializeField] private Transform _lessonPickerContainer = null;
+        [SerializeField] private SlidableContainer _lessonPickerContainer = null;
         [SerializeField] private LessonPickToggle _lessonPickTogglePrefab = null;
         [SerializeField] private ToggleGroup _lessonPickToggleGroup = null;
         [SerializeField] private Transform _lessonPickToggleContainer = null;
         [SerializeField] private AnimatedButton _continueButton = null;
         [Header("Lesson View Container")]
-        [SerializeField] private Transform _lessonViewContainer = null;
+        [SerializeField] private SlidableContainer _lessonViewContainer = null;
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
         [SerializeField] private LessonElementTile _lessonElementTilePrefab = null;
         [SerializeField] private Transform _lessonElementContainer = null;
         [SerializeField] private GameObject _lessonUnavailableContainer = null;
         [SerializeField] private AnimatedButton _backButton = null;
-        [Header("Slide Animation Values")]
-        [SerializeField] private float _slideAnimationDuration = 0.0f;
 
         private Lesson _chosenLesson = Lesson.NO_LESSON;
         private bool _isInLessonPicker = true;
         private LessonData _lesson = null;
         private List<LessonElementTile> _lessonElementTiles = new List<LessonElementTile>();
 
-        private Vector3 _positionOnScreen = Vector3.zero;
-        private Vector3 _positionOffScreenRight = Vector3.zero;
-        private Vector3 _positionOffScreenLeft = Vector3.zero;
-
-        private void Awake()
-        {
-            _positionOnScreen = _lessonPickerContainer.position;
-            _positionOffScreenRight = _lessonPickerContainer.position + Screen.width * Vector3.right;
-            _positionOffScreenLeft = _lessonPickerContainer.position + Screen.width * Vector3.left;
-
-            _lessonPickerContainer.position = _positionOffScreenLeft;
-            _lessonViewContainer.position = _positionOffScreenLeft;
-        }
-
         private void Start()
         {
             _menuButton.InitializeOnClick(() =>
             {
-                Transform activeContainer = _isInLessonPicker ? _lessonPickerContainer : _lessonViewContainer;
-                activeContainer.DOMove(_positionOffScreenLeft, _slideAnimationDuration).OnComplete(() => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+                SlidableContainer activeContainer = _isInLessonPicker ? _lessonPickerContainer : _lessonViewContainer;
+                activeContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
             });
+
+            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
+            _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
 
             _continueButton.InitializeOnClick(() => GoToLessonView());
             _backButton.InitializeOnClick(() => GoToLessonPicker());
@@ -93,10 +79,10 @@ namespace ARudzbenik.UserInterface
         private void GoToLessonPicker()
         {
             _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.DOMove(_positionOnScreen, _slideAnimationDuration).OnComplete(() => _raycastBlocker.SetActive(false));
+            _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
 
-            if (!_isInLessonPicker) _lessonViewContainer.DOMove(_positionOffScreenLeft, _slideAnimationDuration);
-            else _lessonViewContainer.position = _positionOffScreenLeft;
+            if (!_isInLessonPicker) _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            else _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
 
             _isInLessonPicker = true;
         }
@@ -121,8 +107,8 @@ namespace ARudzbenik.UserInterface
             _lessonUnavailableContainer.SetActive(isLessonUnavailable);
 
             _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.DOMove(_positionOffScreenRight, _slideAnimationDuration);
-            _lessonViewContainer.DOMove(_positionOnScreen, _slideAnimationDuration).OnComplete(() => _raycastBlocker.SetActive(false));
+            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+            _lessonViewContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
             _isInLessonPicker = false;
         }
     }
