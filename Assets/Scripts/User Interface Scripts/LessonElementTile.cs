@@ -16,8 +16,9 @@ namespace ARudzbenik.UserInterface
             else
             {
                 Sprite sprite = Resources.Load<Sprite>(lessonElement.LessonImageFilePath);
-                if (sprite == null) _image.gameObject.SetActive(false);
-                else _image.sprite = sprite;
+                if (sprite != null) _image.sprite = sprite;
+
+                _image.gameObject.SetActive(sprite != null);
             }
 
             if (lessonElement.LessonText == null || lessonElement.LessonText.Length == 0) _text.gameObject.SetActive(false);

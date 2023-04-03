@@ -21,6 +21,7 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private AnimatedButton _continueButton = null;
         [Header("Lesson View Container")]
         [SerializeField] private SlidableContainer _lessonViewContainer = null;
+        [SerializeField] private Scrollbar _lessonViewScrollbar = null;
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
         [SerializeField] private LessonElementTile _lessonElementTilePrefab = null;
         [SerializeField] private Transform _lessonElementContainer = null;
@@ -74,6 +75,9 @@ namespace ARudzbenik.UserInterface
                     _lessonElementTiles[index].InitializeTile(_lesson.LessonElements[index]);
                 }
             }
+
+            _lessonViewScrollbar.value = 1.0f;
+            Canvas.ForceUpdateCanvases();
         }
 
         private void GoToLessonPicker()

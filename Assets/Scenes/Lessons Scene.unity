@@ -1310,7 +1310,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -2850,6 +2850,7 @@ MonoBehaviour:
   _lessonPickToggleContainer: {fileID: 1986742506}
   _continueButton: {fileID: 2142948761}
   _lessonViewContainer: {fileID: 1338054969}
+  _lessonViewScrollbar: {fileID: 1213927177}
   _lessonNameText: {fileID: 456109528}
   _lessonElementTilePrefab: {fileID: 5053679618234809372, guid: 4a611d9e5fb81f84588695fa09c0f7aa,
     type: 3}
