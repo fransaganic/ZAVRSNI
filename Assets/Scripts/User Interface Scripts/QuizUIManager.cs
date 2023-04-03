@@ -25,8 +25,6 @@ namespace ARudzbenik.UserInterface
         [Header("Pre-Quiz Container")]
         [SerializeField] private SlidableContainer _preQuizContainer = null;
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
-        [SerializeField] private GameObject _quizUnavailableContainer = null;
-        [SerializeField] private GameObject _quizAvailableContainer = null;
         [SerializeField] private TextMeshProUGUI _numberOfQuestionsText = null;
         [SerializeField] private AnimatedButton _backToLessonPickerButton = null;
         [SerializeField] private AnimatedButton _continueToQuizButton = null;
@@ -44,6 +42,10 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private SlidableContainer _postQuizContainer = null;
         [SerializeField] private TextMeshProUGUI _resultText = null;
         [SerializeField] private AnimatedButton _exitResultViewButton = null;
+        [Header("Error Container")]
+        [SerializeField] private SlidableContainer _errorContainer = null;
+        [SerializeField] private TextMeshProUGUI _errorText = null;
+        [SerializeField] private AnimatedButton _errorBackButton = null;
 
         private ActiveContainer _activeContainer = ActiveContainer.NO_CONTAINER;
         private Lesson _chosenLesson = Lesson.NO_LESSON;
@@ -60,15 +62,7 @@ namespace ARudzbenik.UserInterface
         {
             _menuButton.InitializeOnClick(() => 
             {
-                SlidableContainer activeContainer = null;
-                switch (_activeContainer)
-                {
-                    case ActiveContainer.LESSON_PICKER_CONTAINER: activeContainer = _lessonPickerContainer; break;
-                    case ActiveContainer.PRE_QUIZ_CONTAINER: activeContainer = _preQuizContainer; break;
-                    case ActiveContainer.QUIZ_CONTAINER: activeContainer = _quizContainer; break;
-                    case ActiveContainer.POST_QUIZ_CONTAINER: activeContainer = _postQuizContainer; break;
-                }
-                activeContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+                GetActiveContainer().Slide(ContainerPosition.OFF_SCREEN_RIGHT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
             });
 
             _continueToPreQuizButton.InitializeOnClick(() => GoToPreQuiz());
@@ -89,9 +83,24 @@ namespace ARudzbenik.UserInterface
             _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _quizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
+            _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
 
             InitializeLessonPicker();
             GoToLessonPicker();
+        }
+
+        private SlidableContainer GetActiveContainer()
+        {
+            SlidableContainer activeContainer = null;
+            switch (_activeContainer)
+            {
+                case ActiveContainer.LESSON_PICKER_CONTAINER: activeContainer = _lessonPickerContainer; break;
+                case ActiveContainer.PRE_QUIZ_CONTAINER: activeContainer = _preQuizContainer; break;
+                case ActiveContainer.QUIZ_CONTAINER: activeContainer = _quizContainer; break;
+                case ActiveContainer.POST_QUIZ_CONTAINER: activeContainer = _postQuizContainer; break;
+                case ActiveContainer.ERROR_CONTAINER: activeContainer = _errorContainer; break;
+            }
+            return activeContainer;
         }
 
         private IEnumerator InvokeActionAfterDelay(Action delayedAction, float delay)
@@ -183,24 +192,27 @@ namespace ARudzbenik.UserInterface
         {
             _lessonNameText.text = Constants.GetLessonName(_chosenLesson);
 
-            _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
-            _preQuizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-            _activeContainer = ActiveContainer.PRE_QUIZ_CONTAINER;
-
             if (_quizManager.LoadQuiz(_chosenLesson))
             {
-                _quizUnavailableContainer.SetActive(false);
-                _quizAvailableContainer.SetActive(true);
                 _numberOfQuestionsText.text = _quizManager.QuizLength.ToString();
                 _continueToQuizButton.SetInteractable(true);
             }
             else
             {
-                _quizUnavailableContainer.SetActive(true);
-                _quizAvailableContainer.SetActive(false);
-                _continueToQuizButton.SetInteractable(false);
+                GoToError("TRENUTNO NE POSTOJI KVIZ ZA ODABRANU LEKCIJU.", () =>
+                {
+                    _raycastBlocker.SetActive(true);
+                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+                });
+                return;
             }
+
+            _raycastBlocker.SetActive(true);
+            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            _preQuizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            _activeContainer = ActiveContainer.PRE_QUIZ_CONTAINER;
         }
 
         private void GoToQuiz()
@@ -225,6 +237,17 @@ namespace ARudzbenik.UserInterface
             _activeContainer = ActiveContainer.POST_QUIZ_CONTAINER;
         }
 
-        private enum ActiveContainer { NO_CONTAINER, LESSON_PICKER_CONTAINER, PRE_QUIZ_CONTAINER, QUIZ_CONTAINER, POST_QUIZ_CONTAINER };
+        private void GoToError(string errorMessage, Action onErrorBackButtonPressed)
+        {
+            _errorText.text = errorMessage;
+            _errorBackButton.InitializeOnClick(onErrorBackButtonPressed, removePreviousListeners: true);
+
+            _raycastBlocker.SetActive(true);
+            _errorContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            if (_activeContainer != ActiveContainer.NO_CONTAINER) GetActiveContainer().Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            _activeContainer = ActiveContainer.ERROR_CONTAINER;
+        }
+
+        private enum ActiveContainer { NO_CONTAINER, LESSON_PICKER_CONTAINER, PRE_QUIZ_CONTAINER, QUIZ_CONTAINER, POST_QUIZ_CONTAINER, ERROR_CONTAINER };
     }
 }

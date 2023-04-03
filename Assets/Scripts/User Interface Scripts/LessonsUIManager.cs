@@ -25,11 +25,14 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
         [SerializeField] private LessonElementTile _lessonElementTilePrefab = null;
         [SerializeField] private Transform _lessonElementContainer = null;
-        [SerializeField] private GameObject _lessonUnavailableContainer = null;
         [SerializeField] private AnimatedButton _backButton = null;
+        [Header("Error Container")]
+        [SerializeField] private SlidableContainer _errorContainer = null;
+        [SerializeField] private TextMeshProUGUI _errorText = null; 
+        [SerializeField] private AnimatedButton _errorBackButton = null;
 
+        private ActiveContainer _activeContainer = ActiveContainer.NO_CONTAINER;
         private Lesson _chosenLesson = Lesson.NO_LESSON;
-        private bool _isInLessonPicker = true;
         private LessonData _lesson = null;
         private List<LessonElementTile> _lessonElementTiles = new List<LessonElementTile>();
 
@@ -37,18 +40,30 @@ namespace ARudzbenik.UserInterface
         {
             _menuButton.InitializeOnClick(() =>
             {
-                SlidableContainer activeContainer = _isInLessonPicker ? _lessonPickerContainer : _lessonViewContainer;
-                activeContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+                GetActiveContainer().Slide(ContainerPosition.OFF_SCREEN_LEFT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
             });
 
             _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
             _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
+            _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
 
             _continueButton.InitializeOnClick(() => GoToLessonView());
             _backButton.InitializeOnClick(() => GoToLessonPicker());
 
             InitializeLessonPicker();
             GoToLessonPicker();
+        }
+
+        private SlidableContainer GetActiveContainer()
+        {
+            SlidableContainer activeContainer = null;
+            switch (_activeContainer)
+            {
+                case ActiveContainer.LESSON_PICKER_CONTAINER: activeContainer = _lessonPickerContainer; break;
+                case ActiveContainer.LESSON_VIEW_CONTAINER: activeContainer = _lessonViewContainer; break;
+                case ActiveContainer.ERROR_CONTAINER: activeContainer = _errorContainer; break;
+            }
+            return activeContainer;
         }
 
         private void InitializeLessonPicker()
@@ -85,10 +100,10 @@ namespace ARudzbenik.UserInterface
             _raycastBlocker.SetActive(true);
             _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
 
-            if (!_isInLessonPicker) _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            if (_activeContainer != ActiveContainer.LESSON_PICKER_CONTAINER) _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
             else _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
 
-            _isInLessonPicker = true;
+            _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
         }
 
         private void GoToLessonView()
@@ -105,15 +120,33 @@ namespace ARudzbenik.UserInterface
             bool isLessonUnavailable = lessonFile == null || _lesson.LessonElements.Length == 0;
             if (isLessonUnavailable)
             {
-                foreach (LessonElementTile lessonElementTile in _lessonElementTiles) lessonElementTile.gameObject.SetActive(false);
+                GoToError("TRENUTNO NE POSTOJE PODACI ZA ODABRANU LEKCIJU.", _lessonPickerContainer, () =>
+                {
+                    _raycastBlocker.SetActive(true);
+                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+                });
+                return;
             }
-
-            _lessonUnavailableContainer.SetActive(isLessonUnavailable);
 
             _raycastBlocker.SetActive(true);
             _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
             _lessonViewContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-            _isInLessonPicker = false;
+            _activeContainer = ActiveContainer.LESSON_VIEW_CONTAINER;
         }
+
+        private void GoToError(string errorMessage, SlidableContainer currentContainer, Action onErrorBackButtonPressed)
+        {
+            _errorText.text = errorMessage;
+            _errorBackButton.InitializeOnClick(onErrorBackButtonPressed, removePreviousListeners: true);
+
+            _raycastBlocker.SetActive(true);
+            _errorContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            if (_activeContainer != ActiveContainer.NO_CONTAINER) GetActiveContainer().Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+            _activeContainer = ActiveContainer.ERROR_CONTAINER;
+        }
+
+        private enum ActiveContainer { NO_CONTAINER, LESSON_PICKER_CONTAINER, LESSON_VIEW_CONTAINER, ERROR_CONTAINER };
     }
 }

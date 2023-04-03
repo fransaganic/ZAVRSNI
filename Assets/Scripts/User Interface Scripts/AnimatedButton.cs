@@ -51,9 +51,10 @@ namespace ARudzbenik.UserInterface
             if (_text != null) _text.color = _pressedColor;
         }
 
-        public void InitializeOnClick(Action onClickAction)
+        public void InitializeOnClick(Action onClickAction, bool removePreviousListeners = false)
         {
             if (_button == null) _button = GetComponent<Button>();
+            if (removePreviousListeners) _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(() => AnimateClick(onClickAction));
         }
 
