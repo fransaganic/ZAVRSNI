@@ -12,6 +12,12 @@ namespace ARudzbenik.General
 
         public static readonly string LESSON_FILE_PATH_SUFIX = "_LESSON";
         public static readonly string QUIZ_FILE_PATH_SUFIX = "_QUIZ";
+
+        public const string LESSON_REGEX_PATTERN = @"<a(.*)>(.*)_LESSON\.json</a>";
+        public const int LESSON_REGEX_MATCH_GROUP = 2;
+        public const string QUIZ_REGEX_PATTERN = @"<a(.*)>(.*)_QUIZ\.json</a>";
+        public const int QUIZ_REGEX_MATCH_GROUP = 2;
+
         public static readonly string QUIZ_BUTTON_END_QUIZ_TEXT = "ZAVRŠI KVIZ";
         public static readonly string QUIZ_BUTTON_NEXT_QUESTION_TEXT = "SLJEDEÆE PITANJE";
 
