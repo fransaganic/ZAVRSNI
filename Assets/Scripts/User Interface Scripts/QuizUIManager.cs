@@ -85,13 +85,13 @@ namespace ARudzbenik.UserInterface
 
             _exitResultViewButton.InitializeOnClick(() => GoToLessonPicker());
 
-            InitializeLessonPicker();
-            GoToLessonPicker();
-
             _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _quizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
+
+            InitializeLessonPicker();
+            GoToLessonPicker();
         }
 
         private IEnumerator InvokeActionAfterDelay(Action delayedAction, float delay)
