@@ -1,5 +1,3 @@
-using ARudzbenik.Data;
-using ARudzbenik.General;
 using DG.Tweening;
 using System;
 using TMPro;
@@ -21,7 +19,7 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private float _clickAnimationScaleFactor = 0.0f;
 
         private Toggle _toggle = null;
-        private Lesson _lesson = Lesson.NO_LESSON;
+        private string _lessonName = string.Empty;
         private Sequence _animationSequence = null;
 
         private void Awake()
@@ -43,18 +41,20 @@ namespace ARudzbenik.UserInterface
                 .OnComplete(() => onClickAction?.Invoke());
         }
 
-        public void InitializeOnValueChanged(Lesson lesson, Action<Lesson> onToggleOnAction, ToggleGroup toggleGroup = null)
+        public void InitializeOnValueChanged(string lessonName, Action<string> onToggleOnAction, ToggleGroup toggleGroup = null, bool isOn = false)
         {
             if (toggleGroup != null) _toggle.group = toggleGroup;
 
-            _lesson = lesson;
-            _text.text = Constants.GetLessonName(lesson);
+            _lessonName = lessonName;
+            _text.text = _lessonName;
             _toggle.onValueChanged.AddListener((isOn) =>
             {
                 _outline.color = isOn ? _selectedColor : _normalColor;
                 _text.color = isOn ? _selectedColor : _normalColor;
-                if (isOn) AnimateClick(() => onToggleOnAction?.Invoke(_lesson));
+                if (isOn) AnimateClick(() => onToggleOnAction?.Invoke(_lessonName));
             });
+
+            _toggle.isOn = isOn;
         }
     }
 }

@@ -1,7 +1,5 @@
 using ARudzbenik.Data;
-using ARudzbenik.General;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace ARudzbenik.Quiz
 {
@@ -36,18 +34,12 @@ namespace ARudzbenik.Quiz
             _currentQuestionIndex++;
         }
 
-        public bool LoadQuiz(Lesson lesson)
+        public void LoadQuiz(QuizData quiz)
         {
-            TextAsset quizFile = Resources.Load(lesson.ToString() + Constants.QUIZ_FILE_PATH_SUFIX) as TextAsset;
-            
-            if (quizFile == null) return false;
-
-            _quizData = JsonUtility.FromJson<QuizData>(quizFile.text);
+            _quizData = quiz;
             _currentQuestionIndex = 0;
             _currentQuizLength = QuizLength;
             Score = 0;
-            Resources.UnloadUnusedAssets();
-            return true;
         }
     }
 }

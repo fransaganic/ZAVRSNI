@@ -48,7 +48,8 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private AnimatedButton _errorBackButton = null;
 
         private ActiveContainer _activeContainer = ActiveContainer.NO_CONTAINER;
-        private Lesson _chosenLesson = Lesson.NO_LESSON;
+        private string _chosenLesson = string.Empty;
+        private string _lastLesson = string.Empty;
         private QuizManager _quizManager = null;
         private List<AnswerButton> _answerButtons = new List<AnswerButton>();
         private List<AnswerData> _selectedAnswers = new List<AnswerData>();
@@ -60,12 +61,12 @@ namespace ARudzbenik.UserInterface
 
         private void Start()
         {
-            _menuButton.InitializeOnClick(() => 
+            _menuButton.InitializeOnClick(() =>
             {
                 GetActiveContainer().Slide(ContainerPosition.OFF_SCREEN_RIGHT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
             });
 
-            _continueToPreQuizButton.InitializeOnClick(() => GoToPreQuiz());
+            _continueToPreQuizButton.InitializeOnClick(() => LoadQuiz());
 
             _backToLessonPickerButton.InitializeOnClick(() => GoToLessonPicker());
             _continueToQuizButton.InitializeOnClick(() => GoToQuiz());
@@ -85,8 +86,7 @@ namespace ARudzbenik.UserInterface
             _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
             _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
 
-            InitializeLessonPicker();
-            GoToLessonPicker();
+            LoadAvailableLessonNames();
         }
 
         private SlidableContainer GetActiveContainer()
@@ -103,23 +103,130 @@ namespace ARudzbenik.UserInterface
             return activeContainer;
         }
 
+        private void LoadAvailableLessonNames()
+        {
+            RemoteDataFetcher.Instance.FetchFileNames(Constants.QUIZ_REGEX_PATTERN, Constants.QUIZ_REGEX_MATCH_GROUP, (isSuccessful, lessonNames) =>
+            {
+                if (isSuccessful && lessonNames.Length > 0)
+                {
+                    InitializeLessonPicker(lessonNames);
+                    GoToLessonPicker();
+                }
+                else
+                {
+                    string message = isSuccessful ? "NEMA DOSTUPNIH KVIZOVA" : "NEUSPJEŠNO POVEZIVANJE NA POSLUŽITELJ";
+                    GoToError(message, () =>
+                    {
+                        _raycastBlocker.SetActive(true);
+                        _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+                        _activeContainer = ActiveContainer.NO_CONTAINER;
+                    });
+                }
+            });
+        }
+
+        private void InitializeLessonPicker(string[] lessonNames)
+        {
+            bool optionSelected = false;
+            foreach (string lessonName in lessonNames)
+            {
+                LessonPickToggle toggle = Instantiate(_lessonPickTogglePrefab, _lessonPickToggleContainer);
+                toggle.InitializeOnValueChanged(lessonName, (lessonName) => _chosenLesson = lessonName, _lessonPickToggleGroup, isOn: !optionSelected);
+                optionSelected = true;
+            }
+            Canvas.ForceUpdateCanvases();
+        }
+
+        private void GoToLessonPicker()
+        {
+            _raycastBlocker.SetActive(true);
+            _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            _quizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
+
+            if (_activeContainer == ActiveContainer.PRE_QUIZ_CONTAINER) _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+            else _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
+
+            if (_activeContainer == ActiveContainer.POST_QUIZ_CONTAINER) _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+            else _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
+
+            _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+
+        }
+
+        private void LoadQuiz()
+        {
+            if (_lastLesson == _chosenLesson)
+            {
+                GoToPreQuiz();
+                return;
+            }
+            RemoteDataFetcher.Instance.FetchJSONFile(_chosenLesson + Constants.QUIZ_FILE_PATH_SUFIX, (isSuccessful, JSON) =>
+            {
+                string message = string.Empty;
+                if (isSuccessful)
+                {
+                    try
+                    {
+                        QuizData quiz = JsonUtility.FromJson<QuizData>(JSON);
+                        if (quiz.Questions.Length > 0)
+                        {
+                            _lastLesson = _chosenLesson;
+                            _quizManager.LoadQuiz(quiz);
+                            InitializePreQuiz();
+                            GoToPreQuiz();
+                            return;
+                        }
+                        message = "KVIZ NEMA PODATAKA";
+                    }
+                    catch
+                    {
+                        message = "KVIZ NIJE MOGUÆE UÈITATI";
+                    }
+                }
+                else message = "NEUSPJEŠNO POVEZIVANJE NA POSLUŽITELJ";
+
+                GoToError(message, () =>
+                {
+                    _raycastBlocker.SetActive(true);
+                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
+                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+                });
+            });
+        }
+
+        private void InitializePreQuiz()
+        {
+            _lessonNameText.text = _chosenLesson;
+            _numberOfQuestionsText.text = _quizManager.QuizLength.ToString();
+            _continueToQuizButton.SetInteractable(true);
+        }
+
+        private void GoToPreQuiz()
+        {
+            _raycastBlocker.SetActive(true);
+            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            _preQuizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            _activeContainer = ActiveContainer.PRE_QUIZ_CONTAINER;
+        }
+
         private IEnumerator InvokeActionAfterDelay(Action delayedAction, float delay)
         {
             yield return new WaitForSeconds(delay);
             delayedAction?.Invoke();
         }
 
-        private void InitializeLessonPicker()
+        private void GoToQuiz()
         {
-            foreach (Lesson lesson in Enum.GetValues(typeof(Lesson)))
-            {
-                if (lesson == Lesson.NO_LESSON) continue;
+            _progressBar.value = 0;
+            _selectedAnswers.Clear();
+            ShowQuestion();
 
-                LessonPickToggle toggle = Instantiate(_lessonPickTogglePrefab, _lessonPickToggleContainer);
-                toggle.InitializeOnValueChanged(lesson, (lesson) => _chosenLesson = lesson, _lessonPickToggleGroup);
-            }
+            _raycastBlocker.SetActive(true);
+            _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            _quizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            _activeContainer = ActiveContainer.QUIZ_CONTAINER;
         }
-
         private void OnAnswerSelected(AnswerData answer)
         {
             if (_selectedAnswers.Contains(answer)) _selectedAnswers.Remove(answer);
@@ -171,60 +278,6 @@ namespace ARudzbenik.UserInterface
             _questionText.text = question.QuestionText;
             _nextButton.SetText(_quizManager.IsLastQuestion ? Constants.QUIZ_BUTTON_END_QUIZ_TEXT : Constants.QUIZ_BUTTON_NEXT_QUESTION_TEXT);
             _progressBar.DOValue(_progressBar.value + 1.0f / _quizManager.QuizLength, _progressBarFillDuration);
-        }
-
-        private void GoToLessonPicker()
-        {
-            _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-            _quizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
-
-            if (_activeContainer == ActiveContainer.PRE_QUIZ_CONTAINER) _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
-            else _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
-
-            if (_activeContainer == ActiveContainer.POST_QUIZ_CONTAINER) _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
-            else _postQuizContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT, moveInstantly: true);
-
-            _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
-        }
-
-        private void GoToPreQuiz()
-        {
-            _lessonNameText.text = Constants.GetLessonName(_chosenLesson);
-
-            if (_quizManager.LoadQuiz(_chosenLesson))
-            {
-                _numberOfQuestionsText.text = _quizManager.QuizLength.ToString();
-                _continueToQuizButton.SetInteractable(true);
-            }
-            else
-            {
-                GoToError("TRENUTNO NE POSTOJI KVIZ ZA ODABRANU LEKCIJU.", () =>
-                {
-                    _raycastBlocker.SetActive(true);
-                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
-                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
-                });
-                return;
-            }
-
-            _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
-            _preQuizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-            _activeContainer = ActiveContainer.PRE_QUIZ_CONTAINER;
-        }
-
-        private void GoToQuiz()
-        {
-            _progressBar.value = 0;
-            _selectedAnswers.Clear();
-            ShowQuestion();
-
-            _raycastBlocker.SetActive(true);
-            _preQuizContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
-            _quizContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-            _activeContainer = ActiveContainer.QUIZ_CONTAINER;
         }
 
         private void GoToPostQuiz()

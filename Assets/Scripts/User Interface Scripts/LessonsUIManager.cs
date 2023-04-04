@@ -32,7 +32,8 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private AnimatedButton _errorBackButton = null;
 
         private ActiveContainer _activeContainer = ActiveContainer.NO_CONTAINER;
-        private Lesson _chosenLesson = Lesson.NO_LESSON;
+        private string _chosenLesson = string.Empty;
+        private string _lastLesson = string.Empty;
         private LessonData _lesson = null;
         private List<LessonElementTile> _lessonElementTiles = new List<LessonElementTile>();
 
@@ -47,11 +48,10 @@ namespace ARudzbenik.UserInterface
             _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
             _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
 
-            _continueButton.InitializeOnClick(() => GoToLessonView());
+            _continueButton.InitializeOnClick(() => LoadLesson());
             _backButton.InitializeOnClick(() => GoToLessonPicker());
 
-            InitializeLessonPicker();
-            GoToLessonPicker();
+            LoadAvailableLessonNames();
         }
 
         private SlidableContainer GetActiveContainer()
@@ -66,19 +66,96 @@ namespace ARudzbenik.UserInterface
             return activeContainer;
         }
 
-        private void InitializeLessonPicker()
+        private void LoadAvailableLessonNames()
         {
-            foreach (Lesson lesson in Enum.GetValues(typeof(Lesson)))
+            RemoteDataFetcher.Instance.FetchFileNames(Constants.LESSON_REGEX_PATTERN, Constants.LESSON_REGEX_MATCH_GROUP, (isSuccessful, lessonNames) => 
             {
-                if (lesson == Lesson.NO_LESSON) continue;
+                if (isSuccessful && lessonNames.Length > 0)
+                {
+                    InitializeLessonPicker(lessonNames);
+                    GoToLessonPicker();
+                }
+                else
+                {
+                    string message = isSuccessful ? "NEMA DOSTUPNIH LEKCIJA" : "NEUSPJEŠNO POVEZIVANJE NA POSLUŽITELJ";
+                    GoToError(message, () =>
+                    {
+                        _raycastBlocker.SetActive(true);
+                        _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, () => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+                        _activeContainer = ActiveContainer.NO_CONTAINER;
+                    });
+                }
+            });
+        }
 
+        private void InitializeLessonPicker(string[] lessonNames)
+        {
+            bool optionSelected = false;
+            foreach (string lessonName in lessonNames)
+            {
                 LessonPickToggle toggle = Instantiate(_lessonPickTogglePrefab, _lessonPickToggleContainer);
-                toggle.InitializeOnValueChanged(lesson, (lesson) => _chosenLesson = lesson, _lessonPickToggleGroup);
+                toggle.InitializeOnValueChanged(lessonName, (lessonName) => _chosenLesson = lessonName, _lessonPickToggleGroup, isOn: !optionSelected);
+                optionSelected = true;
             }
+            Canvas.ForceUpdateCanvases();
+        }
+
+        private void GoToLessonPicker()
+        {
+            _raycastBlocker.SetActive(true);
+
+            if (_activeContainer != ActiveContainer.LESSON_PICKER_CONTAINER) _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+            else _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
+
+            _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+            _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+
         }
 
         private void LoadLesson()
         {
+            if (_chosenLesson == _lastLesson)
+            {
+                GoToLessonView();
+                return;
+            }
+            RemoteDataFetcher.Instance.FetchJSONFile(_chosenLesson + Constants.LESSON_FILE_PATH_SUFIX, (isSuccessful, JSON) => 
+            {
+                string message = string.Empty;
+                if (isSuccessful)
+                {
+                    try
+                    {
+                        _lesson = JsonUtility.FromJson<LessonData>(JSON);
+                        if (_lesson.LessonElements.Length > 0)
+                        {
+                            _lastLesson = _chosenLesson;
+                            InitializeLessonView();
+                            GoToLessonView();
+                            return;
+                        }
+                        message = "LEKCIJA NEMA PODATAKA";
+                    }
+                    catch
+                    {
+                        message = "LEKCIJU NIJE MOGUÆE UÈITATI";
+                    }
+                }
+                else message = "NEUSPJEŠNO POVEZIVANJE NA POSLUŽITELJ";
+
+                GoToError(message, () =>
+                {
+                    _raycastBlocker.SetActive(true);
+                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
+                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
+                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
+                });
+            });
+        }
+
+        private void InitializeLessonView()
+        {
+            _lessonNameText.text = _chosenLesson;
             while (_lessonElementTiles.Count < _lesson.LessonElements.Length) _lessonElementTiles.Add(Instantiate(_lessonElementTilePrefab, _lessonElementContainer));
 
             for (int index = 0; index < _lessonElementTiles.Count; index++)
@@ -95,48 +172,15 @@ namespace ARudzbenik.UserInterface
             Canvas.ForceUpdateCanvases();
         }
 
-        private void GoToLessonPicker()
-        {
-            _raycastBlocker.SetActive(true);
-            _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-
-            if (_activeContainer != ActiveContainer.LESSON_PICKER_CONTAINER) _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
-            else _lessonViewContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT, moveInstantly: true);
-
-            _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
-        }
-
         private void GoToLessonView()
         {
-            _lessonNameText.text = Constants.GetLessonName(_chosenLesson);
-
-            TextAsset lessonFile = Resources.Load(_chosenLesson.ToString() + Constants.LESSON_FILE_PATH_SUFIX) as TextAsset;
-            if (lessonFile != null)
-            {
-                _lesson = JsonUtility.FromJson<LessonData>(lessonFile.text);
-                LoadLesson();
-            }
-
-            bool isLessonUnavailable = lessonFile == null || _lesson.LessonElements.Length == 0;
-            if (isLessonUnavailable)
-            {
-                GoToError("TRENUTNO NE POSTOJE PODACI ZA ODABRANU LEKCIJU.", _lessonPickerContainer, () =>
-                {
-                    _raycastBlocker.SetActive(true);
-                    _errorContainer.Slide(ContainerPosition.OFF_SCREEN_LEFT);
-                    _lessonPickerContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
-                    _activeContainer = ActiveContainer.LESSON_PICKER_CONTAINER;
-                });
-                return;
-            }
-
             _raycastBlocker.SetActive(true);
             _lessonPickerContainer.Slide(ContainerPosition.OFF_SCREEN_RIGHT);
             _lessonViewContainer.Slide(ContainerPosition.ON_SCREEN, () => _raycastBlocker.SetActive(false));
             _activeContainer = ActiveContainer.LESSON_VIEW_CONTAINER;
         }
 
-        private void GoToError(string errorMessage, SlidableContainer currentContainer, Action onErrorBackButtonPressed)
+        private void GoToError(string errorMessage, Action onErrorBackButtonPressed)
         {
             _errorText.text = errorMessage;
             _errorBackButton.InitializeOnClick(onErrorBackButtonPressed, removePreviousListeners: true);
