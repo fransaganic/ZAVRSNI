@@ -27,8 +27,8 @@ namespace ARudzbenik.UserInterface
 
         private void OnDestroy()
         {
-            AnimatedContent.OnAnimatedContentShowAction += Activate;
-            AnimatedContent.OnAnimatedContentHideAction += Deactivate;
+            AnimatedContent.OnAnimatedContentShowAction -= Activate;
+            AnimatedContent.OnAnimatedContentHideAction -= Deactivate;
         }
 
         private void Activate()
