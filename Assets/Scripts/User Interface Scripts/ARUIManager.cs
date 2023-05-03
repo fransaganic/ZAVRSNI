@@ -15,13 +15,15 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private TextMeshProUGUI _contentNameText = null;
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
 
+        private int _currentContentID = -1;
+
         private bool _isContentShown = false;
         private bool _isContentInformationShown = false;
 
         private void Awake()
         {
-            ARContentContainer.OnContentShown += OnContentShown;
-            ARContentContainer.OnContentHidden += OnContentHidden;
+            ARContentContainer.OnContentShownAction += OnContentShown;
+            ARContentContainer.OnContentHiddenAction += OnContentHidden;
         }
 
         private void Start()
@@ -39,8 +41,8 @@ namespace ARudzbenik.UserInterface
 
         private void OnDestroy()
         {
-            ARContentContainer.OnContentShown -= OnContentShown;
-            ARContentContainer.OnContentHidden -= OnContentHidden;
+            ARContentContainer.OnContentShownAction -= OnContentShown;
+            ARContentContainer.OnContentHiddenAction -= OnContentHidden;
         }
 
         private void AnimateContentInformationShow()
@@ -55,20 +57,24 @@ namespace ARudzbenik.UserInterface
             _contentInformationContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, () => _isContentInformationShown = false);
         }
 
-        private void OnContentShown(string contentName, string lessonName)
+        private void OnContentShown(int contentID, string contentName, string lessonName)
         {
+            _currentContentID = contentID;
+
             _contentNameText.text = contentName;
             _lessonNameText.text = lessonName;
+            _contentInformationButton.SetInteractable(contentName != string.Empty || lessonName != string.Empty);
+
             _isContentShown = true;
-            _contentInformationButton.SetInteractable(true);
         }
 
-        private void OnContentHidden(string contentName, string lessonName)
+        private void OnContentHidden(int contentID)
         {
-            if (_contentNameText.text != contentName || _lessonNameText.text != lessonName) return;
+            if (contentID != _currentContentID) return;
 
-            _isContentShown = false;
             _contentInformationButton.SetInteractable(false);
+            _isContentShown = false;
+
             if (_isContentInformationShown) AnimateContentInformationHide();
         }
     }

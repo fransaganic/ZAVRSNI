@@ -15,6 +15,7 @@ namespace ARudzbenik.UserInterface
         [Header("Button Color Values")]
         [SerializeField] private Color _normalColor = Color.white;
         [SerializeField] private Color _pressedColor = Color.white;
+        [SerializeField] private Color _disabledColor = Color.white;
         [Header("Click Animation Values")]
         [SerializeField] private float _clickAnimationDuration = 0.0f;
         [SerializeField] private float _clickAnimationScaleFactor = 0.0f;
@@ -46,6 +47,7 @@ namespace ARudzbenik.UserInterface
                     if (_text != null) _text.color = _normalColor;
                     onClickAction?.Invoke();
                 });
+
             _outline.color = _pressedColor;
             if (_icon != null) _icon.color = _pressedColor;
             if (_text != null) _text.color = _pressedColor;
@@ -61,6 +63,9 @@ namespace ARudzbenik.UserInterface
         public void SetInteractable(bool isInteractable)
         {
             _button.interactable = isInteractable;
+            _outline.color = isInteractable ? _normalColor : _disabledColor;
+            if (_icon != null) _icon.color = isInteractable ? _normalColor : _disabledColor;
+            if (_text != null) _text.color = isInteractable ? _normalColor : _disabledColor;
         }
 
         public void SetText(string text)

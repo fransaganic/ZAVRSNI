@@ -7,8 +7,8 @@ namespace ARudzbenik.ARContent
 {
     public class ARContentContainer : MonoBehaviour
     {
-        public static Action<string, string> OnContentShown = null;
-        public static Action<string, string> OnContentHidden = null;
+        public static Action<int, string, string> OnContentShownAction = null;
+        public static Action<int> OnContentHiddenAction = null;
 
         [SerializeField] private GameObject _content = null;
         [SerializeField] private DefaultObserverEventHandler _target = null;
@@ -17,6 +17,8 @@ namespace ARudzbenik.ARContent
         [SerializeField] private string _contentName = null;
 
         private string _lessonName = null;
+
+        private int _ID = -1;
 
         private void Awake()
         {
@@ -28,6 +30,8 @@ namespace ARudzbenik.ARContent
             _content.SetActive(false);
             _target.OnTargetFound.AddListener(ShowContent);
             _target.OnTargetLost.AddListener(HideContent);
+
+            _ID = GetInstanceID();
         }
 
         private void OnDestroy()
@@ -39,13 +43,13 @@ namespace ARudzbenik.ARContent
         private void ShowContent()
         {
             _content.SetActive(true);
-            OnContentShown?.Invoke(_contentName, _lessonName);
+            OnContentShownAction?.Invoke(_ID, _contentName, _lessonName);
         }
 
         private void HideContent()
         {
             _content.SetActive(false);
-            OnContentHidden?.Invoke(_contentName, _lessonName);
+            OnContentHiddenAction?.Invoke(_ID);
         }
     }
 }
