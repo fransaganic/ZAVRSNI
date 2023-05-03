@@ -1,3 +1,4 @@
+using ARudzbenik.ARContent.ContentQuiz;
 using ARudzbenik.Data;
 using ARudzbenik.General;
 using System;
@@ -7,8 +8,8 @@ namespace ARudzbenik.ARContent
 {
     public class ARContentContainer : MonoBehaviour
     {
-        public static Action<int, string, string> OnContentShownAction = null;
-        public static Action<int> OnContentHiddenAction = null;
+        public static Action<ARContentContainer> OnContentShownAction = null;
+        public static Action<ARContentContainer> OnContentHiddenAction = null;
 
         [SerializeField] private GameObject _content = null;
         [SerializeField] private DefaultObserverEventHandler _target = null;
@@ -17,8 +18,12 @@ namespace ARudzbenik.ARContent
         [SerializeField] private string _contentName = null;
 
         private string _lessonName = null;
+        private ContentWithQuiz _quizComponent = null;
 
-        private int _ID = -1;
+        public string ContentName => _contentName;
+        public string LessonName => _lessonName;
+        public bool HasQuiz => _quizComponent != null && !_quizComponent.IsBeingDestroyed;
+        public string QuizQuestionText => _quizComponent.CurrentQuestionText;
 
         private void Awake()
         {
@@ -30,8 +35,11 @@ namespace ARudzbenik.ARContent
             _content.SetActive(false);
             _target.OnTargetFound.AddListener(ShowContent);
             _target.OnTargetLost.AddListener(HideContent);
+        }
 
-            _ID = GetInstanceID();
+        private void Start()
+        {
+            _quizComponent = _content.GetComponent<ContentWithQuiz>();
         }
 
         private void OnDestroy()
@@ -43,13 +51,18 @@ namespace ARudzbenik.ARContent
         private void ShowContent()
         {
             _content.SetActive(true);
-            OnContentShownAction?.Invoke(_ID, _contentName, _lessonName);
+            OnContentShownAction?.Invoke(this);
         }
 
         private void HideContent()
         {
             _content.SetActive(false);
-            OnContentHiddenAction?.Invoke(_ID);
+            OnContentHiddenAction?.Invoke(this);
+        }
+
+        public void ToggleQuiz(bool isActive)
+        {
+            _quizComponent.ToggleQuiz(isActive);
         }
     }
 }

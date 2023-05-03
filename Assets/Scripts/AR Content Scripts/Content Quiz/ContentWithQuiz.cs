@@ -11,29 +11,19 @@ namespace ARudzbenik.ARContent.ContentQuiz
         [SerializeField] private ContentQuestion _question = null;
         [SerializeField] private bool _useFunctionality = false;
 
+        public string CurrentQuestionText => _question.QuestionText;
+        public bool IsBeingDestroyed { get; private set; } = false;
+
         private List<ContentAnswer> _currentlySelectedAnswers = new List<ContentAnswer>();
         private bool _isQuizActive = false;
 
         private void Awake()
         {
-            if (!_useFunctionality || _question == null) Destroy(this);
-        }
-
-        private void OnEnable()
-        {
-            _isQuizActive = true;
-            // TODO: update question text
-            OnObjectSelectedAction += SelectAnswer;
-        }
-
-        private void OnDisable()
-        {
-            foreach (ContentAnswer answer in _currentlySelectedAnswers) answer.AnswerObject.UpdateSelectionVisual(isSelected: false);
-            
-            _currentlySelectedAnswers.Clear();
-            _isQuizActive = false;
-            // TODO: clear question text
-            OnObjectSelectedAction -= SelectAnswer;
+            if (!_useFunctionality || _question == null)
+            {
+                IsBeingDestroyed = true;
+                Destroy(this);
+            }
         }
 
         private void SelectAnswer(SelectableObject selectedObject)
@@ -64,6 +54,20 @@ namespace ARudzbenik.ARContent.ContentQuiz
         {
             if (!_isQuizActive) return;
             foreach (ContentAnswer answer in _currentlySelectedAnswers) answer.AnswerObject.UpdateCorrectnessVisual(answer.IsCorrect);
+        }
+
+        public void ToggleQuiz(bool isActive)
+        {
+            _isQuizActive = isActive;
+
+            if (isActive) OnObjectSelectedAction += SelectAnswer;
+            else
+            {
+                foreach (ContentAnswer answer in _currentlySelectedAnswers) answer.AnswerObject.UpdateSelectionVisual(isSelected: false);
+
+                _currentlySelectedAnswers.Clear();
+                OnObjectSelectedAction -= SelectAnswer;
+            }
         }
     }
 }

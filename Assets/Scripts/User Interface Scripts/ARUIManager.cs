@@ -9,16 +9,21 @@ namespace ARudzbenik.UserInterface
     public class ARUIManager : MonoBehaviour
     {
         [SerializeField] private AnimatedButton _contentInformationButton = null;
+        [SerializeField] private AnimatedButton _contentQuizButton = null;
         [SerializeField] private AnimatedButton _menuButton = null;
         [Header("Content Information Values")]
         [SerializeField] private SlidableContainer _contentInformationContainer = null;
         [SerializeField] private TextMeshProUGUI _contentNameText = null;
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
+        [Header("Content Quiz Values")]
+        [SerializeField] private SlidableContainer _contentQuizContainer = null;
+        [SerializeField] private TextMeshProUGUI _questionText = null;
 
-        private int _currentContentID = -1;
+        private ARContentContainer _currentContent = null;
 
         private bool _isContentShown = false;
         private bool _isContentInformationShown = false;
+        private bool _isContentQuizShown = false;
 
         private void Awake()
         {
@@ -36,6 +41,14 @@ namespace ARudzbenik.UserInterface
             _contentInformationButton.SetInteractable(false);
             _contentInformationContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, moveInstantly: true);
 
+            _contentQuizButton.InitializeOnClick(() => 
+            {
+                if (_isContentQuizShown) AnimateContentQuizHide();
+                else AnimateContentQuizShow();
+            });
+            _contentQuizButton.SetInteractable(false);
+            _contentQuizContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, moveInstantly: true);
+
             _menuButton.InitializeOnClick(() => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
         }
 
@@ -48,6 +61,8 @@ namespace ARudzbenik.UserInterface
         private void AnimateContentInformationShow()
         {
             if (!_isContentShown || _isContentInformationShown) return;
+            if (_isContentQuizShown) AnimateContentQuizHide();
+
             _contentInformationContainer.Slide(ContainerPosition.ON_SCREEN, () => _isContentInformationShown = true);
         }
 
@@ -57,25 +72,48 @@ namespace ARudzbenik.UserInterface
             _contentInformationContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, () => _isContentInformationShown = false);
         }
 
-        private void OnContentShown(int contentID, string contentName, string lessonName)
+        private void AnimateContentQuizShow()
         {
-            _currentContentID = contentID;
+            if (!_isContentShown || _isContentQuizShown) return;
+            if (_isContentInformationShown) AnimateContentInformationHide();
 
-            _contentNameText.text = contentName;
-            _lessonNameText.text = lessonName;
-            _contentInformationButton.SetInteractable(contentName != string.Empty || lessonName != string.Empty);
+            _contentQuizContainer.Slide(ContainerPosition.ON_SCREEN, () => _isContentQuizShown = true);
+            _currentContent.ToggleQuiz(true);
+        }
+
+        private void AnimateContentQuizHide()
+        {
+            if (!_isContentQuizShown) return;
+            _contentQuizContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, () => _isContentQuizShown = false);
+            _currentContent.ToggleQuiz(false);
+        }
+
+        private void OnContentShown(ARContentContainer content)
+        {
+            _currentContent = content;
+
+            _contentInformationButton.SetInteractable(content.ContentName != string.Empty || content.LessonName != string.Empty);
+            _contentNameText.text = content.ContentName;
+            _lessonNameText.text = content.LessonName;
+
+            _contentQuizButton.SetInteractable(content.HasQuiz);
+            _questionText.text = content.QuizQuestionText;
 
             _isContentShown = true;
         }
 
-        private void OnContentHidden(int contentID)
+        private void OnContentHidden(ARContentContainer content)
         {
-            if (contentID != _currentContentID) return;
+            if (content != _currentContent) return;
 
             _contentInformationButton.SetInteractable(false);
+            _contentQuizButton.SetInteractable(false);
             _isContentShown = false;
 
             if (_isContentInformationShown) AnimateContentInformationHide();
+            if (_isContentQuizShown) AnimateContentQuizHide();
+
+            _currentContent = null;
         }
     }
 }
