@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _content: {fileID: 2313670431610504966}
   _target: {fileID: 0}
-  _lessonName: 
+  _lesson: 0
   _contentName: 
 --- !u!1 &2313670431610504966
 GameObject:
@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 2313670431610504968}
   - component: {fileID: 2313670431610504969}
   - component: {fileID: 2313670431610504970}
+  - component: {fileID: 8737085338651469856}
   m_Layer: 0
   m_Name: Content
   m_TagString: Untagged
@@ -125,3 +126,15 @@ MonoBehaviour:
   _useFunctionality: 0
   _scaleRange: {x: 0, y: 0}
   _scalingSpeed: 0
+--- !u!114 &8737085338651469856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2313670431610504966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c0d32223788964c8a96da7dbb20553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
