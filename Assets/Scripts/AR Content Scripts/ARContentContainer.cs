@@ -60,6 +60,11 @@ namespace ARudzbenik.ARContent
             OnContentHiddenAction?.Invoke(this);
         }
 
+        public void NextQuizQuestion()
+        {
+            _quizComponent.NextQuestion();
+        }    
+
         public void ToggleQuiz(bool isActive)
         {
             _quizComponent.ToggleQuiz(isActive);

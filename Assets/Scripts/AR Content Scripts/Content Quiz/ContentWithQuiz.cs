@@ -8,29 +8,40 @@ namespace ARudzbenik.ARContent.ContentQuiz
     {
         public static Action<SelectableObject> OnObjectSelectedAction = null;
 
-        [SerializeField] private ContentQuestion _question = null;
+        [SerializeField] private ContentQuestion[] _questions = null;
         [SerializeField] private bool _useFunctionality = false;
 
-        public string CurrentQuestionText => _question.QuestionText;
+        public string CurrentQuestionText => _questions[_currentQuestionIndex].QuestionText;
         public bool IsBeingDestroyed { get; private set; } = false;
 
+        private int _currentQuestionIndex = 0;
         private List<ContentAnswer> _currentlySelectedAnswers = new List<ContentAnswer>();
         private bool _isQuizActive = false;
 
         private void Awake()
         {
-            if (!_useFunctionality || _question == null)
+            if (!_useFunctionality || _questions.Length == 0)
             {
                 IsBeingDestroyed = true;
                 Destroy(this);
             }
         }
 
+        public void NextQuestion()
+        {
+            _currentQuestionIndex++;
+            if (_currentQuestionIndex >= _questions.Length) _currentQuestionIndex = 0;
+
+            foreach (ContentAnswer answer in _currentlySelectedAnswers) answer.AnswerObject.UpdateSelectionVisual(isSelected: false);
+            _currentlySelectedAnswers.Clear();
+        }
+
         private void SelectAnswer(SelectableObject selectedObject)
         {
             if (!_isQuizActive) return;
 
-            foreach (ContentAnswer answer in _question.Answers)
+            ContentQuestion currentQuestion = _questions[_currentQuestionIndex];
+            foreach (ContentAnswer answer in currentQuestion.Answers)
             {
                 if (answer.AnswerObject.Equals(selectedObject))
                 {
@@ -65,6 +76,7 @@ namespace ARudzbenik.ARContent.ContentQuiz
             {
                 foreach (ContentAnswer answer in _currentlySelectedAnswers) answer.AnswerObject.UpdateSelectionVisual(isSelected: false);
 
+                _currentQuestionIndex = 0;
                 _currentlySelectedAnswers.Clear();
                 OnObjectSelectedAction -= SelectAnswer;
             }

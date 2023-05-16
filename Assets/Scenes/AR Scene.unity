@@ -188,7 +188,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 564369431}
+  - {fileID: 86811410}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -519,6 +519,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea9b0da3b4496843ab6aabc82c12a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &86811410
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: '297-SwampMaterial
+
+    39740'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cf858971d0114d9cadedf06a5533d043, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &117284011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,7 +1412,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1738134919}
+  - {fileID: 671117544}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2061,37 +2092,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558798865}
   m_CullTransparentMesh: 1
---- !u!21 &564369431
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: '297-SwampMaterial
-
-    94014'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cf858971d0114d9cadedf06a5533d043, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &571173654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,16 +2169,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571173654}
   m_CullTransparentMesh: 1
---- !u!21 &580334604
+--- !u!21 &671117544
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 'neo-294-plainsMaterial
+  m_Name: 'afr-314-manticoreMaterial
 
-    94648'
+    39858'
   m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -2192,7 +2192,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 88ebf16d69924fe2a7d1342010449594, type: 3}
+        m_Texture: {fileID: 2800000, guid: da6e9d5ce4a24adfafbea1485afd0203, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -2232,7 +2232,7 @@ RectTransform:
   m_Children:
   - {fileID: 1783064970}
   m_Father: {fileID: 1998462992}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.05}
   m_AnchorMax: {x: 0.9, y: 0.325}
@@ -2277,6 +2277,137 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672440880}
   m_CullTransparentMesh: 1
+--- !u!1001 &682672057
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1998462992}
+    m_Modifications:
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527002404217, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Question Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823299527157040563, guid: e8870206d37b0b547b752d1470ce60a6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 61ed2a39c959c584fa9ac5ed58ed82e8,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e8870206d37b0b547b752d1470ce60a6, type: 3}
+--- !u!224 &682672058 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5823299527002404216, guid: e8870206d37b0b547b752d1470ce60a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 682672057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &682732565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,6 +2926,37 @@ MonoBehaviour:
   _selectedColor: {r: 1, g: 0.8116399, b: 0, a: 1}
   _correctColor: {r: 0.06427247, g: 0.754717, b: 0.03203986, a: 1}
   _incorrectColor: {r: 0.6698113, g: 0.072668225, b: 0.072668225, a: 1}
+--- !u!21 &809514962
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'neo-294-plainsMaterial
+
+    40388'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 88ebf16d69924fe2a7d1342010449594, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &812322712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +3081,7 @@ MonoBehaviour:
   _contentNameText: {fileID: 682732567}
   _lessonNameText: {fileID: 1200508852}
   _contentQuizContainer: {fileID: 1998462993}
+  _nextQuestionButton: {fileID: 1375737369}
   _questionText: {fileID: 1783064971}
 --- !u!1 &827803165
 GameObject:
@@ -3061,7 +3224,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1523031528}
+  - {fileID: 1213492931}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3279,6 +3442,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
         type: 3}
+      propertyPath: _questions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
       propertyPath: _question.QuestionText
       value: "Ozna\u010Dite sve igra\u010De."
       objectReference: {fileID: 0}
@@ -3289,6 +3457,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
         type: 3}
+      propertyPath: _questions.Array.data[0].QuestionText
+      value: "Ozna\u010Dite sve igra\u010De."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].QuestionText
+      value: "Ozna\u010Dite stol."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
       propertyPath: _question.Answers.Array.data[0].IsCorrect
       value: 1
       objectReference: {fileID: 0}
@@ -3296,6 +3474,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _question.Answers.Array.data[1].IsCorrect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
         type: 3}
@@ -3310,6 +3498,61 @@ PrefabInstance:
     - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
         type: 3}
       propertyPath: _question.Answers.Array.data[2].AnswerObject
+      value: 
+      objectReference: {fileID: 780628547}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[0].IsCorrect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[1].IsCorrect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[2].IsCorrect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.data[0].IsCorrect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.data[1].IsCorrect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[0].AnswerObject
+      value: 
+      objectReference: {fileID: 1550360851}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[1].AnswerObject
+      value: 
+      objectReference: {fileID: 1179731424}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[0].Answers.Array.data[2].AnswerObject
+      value: 
+      objectReference: {fileID: 780628547}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.data[0].AnswerObject
+      value: 
+      objectReference: {fileID: 1179731424}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.data[1].AnswerObject
+      value: 
+      objectReference: {fileID: 780628547}
+    - target: {fileID: 8737085338651469856, guid: a2b89fa3933b4354a9fa8bb831f083e7,
+        type: 3}
+      propertyPath: _questions.Array.data[1].Answers.Array.data[2].AnswerObject
       value: 
       objectReference: {fileID: 780628547}
     m_RemovedComponents: []
@@ -3472,6 +3715,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889548487}
   m_CullTransparentMesh: 1
+--- !u!21 &897079886
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: '301-ForestMaterial
+
+    40148'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: fa4121858e8346a9bec3303d863b8088, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &910125625
 GameObject:
   m_ObjectHideFlags: 0
@@ -4331,7 +4605,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1320384573}
+  - {fileID: 897079886}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5058,6 +5332,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1200508850}
   m_CullTransparentMesh: 1
+--- !u!21 &1213492931
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'pm19-110-murderMaterial
+
+    40042'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b56f892ca17d4c549e29f94fa615a7ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1215086859
 GameObject:
   m_ObjectHideFlags: 0
@@ -5429,37 +5734,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314598575}
   m_CullTransparentMesh: 1
---- !u!21 &1320384573
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: '301-ForestMaterial
-
-    94420'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: fa4121858e8346a9bec3303d863b8088, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1001 &1324504867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5706,6 +5980,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1373481145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1375737369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5823299527002404220, guid: e8870206d37b0b547b752d1470ce60a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 682672057}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea9b0da3b4496843ab6aabc82c12a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1411026115
 Mesh:
   m_ObjectHideFlags: 0
@@ -6322,37 +6608,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519300520}
   m_CullTransparentMesh: 1
---- !u!21 &1523031528
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'pm19-110-murderMaterial
-
-    94318'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b56f892ca17d4c549e29f94fa615a7ab, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
 --- !u!43 &1527080587
 Mesh:
   m_ObjectHideFlags: 0
@@ -6905,7 +7160,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 580334604}
+  - {fileID: 809514962}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7555,37 +7810,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729797893}
   m_CullTransparentMesh: 1
---- !u!21 &1738134919
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'afr-314-manticoreMaterial
-
-    94144'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: da6e9d5ce4a24adfafbea1485afd0203, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1760562480
 GameObject:
   m_ObjectHideFlags: 0
@@ -9067,6 +9291,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 682672058}
   - {fileID: 672440881}
   m_Father: {fileID: 812322716}
   m_RootOrder: 3

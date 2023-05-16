@@ -17,6 +17,7 @@ namespace ARudzbenik.UserInterface
         [SerializeField] private TextMeshProUGUI _lessonNameText = null;
         [Header("Content Quiz Values")]
         [SerializeField] private SlidableContainer _contentQuizContainer = null;
+        [SerializeField] private AnimatedButton _nextQuestionButton = null;
         [SerializeField] private TextMeshProUGUI _questionText = null;
 
         private ARContentContainer _currentContent = null;
@@ -50,6 +51,12 @@ namespace ARudzbenik.UserInterface
             _contentQuizContainer.Slide(ContainerPosition.OFF_SCREEN_DOWN, moveInstantly: true);
 
             _menuButton.InitializeOnClick(() => SceneManager.LoadScene(Constants.MAIN_MENU_SCENE_BUILD_INDEX));
+
+            _nextQuestionButton.InitializeOnClick(() =>
+            {
+                _currentContent.NextQuizQuestion();
+                _questionText.text = _currentContent.QuizQuestionText;
+            });
         }
 
         private void OnDestroy()
