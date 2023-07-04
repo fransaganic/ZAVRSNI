@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="basketball" size="0.200000 0.112500" />
+    <ImageTarget name="loptePlave" size="0.200000 0.138442" />
+    <ImageTarget name="lopte" size="0.100000 0.069912" />
+    <ImageTarget name="Zoskretanje" size="0.100000 0.101716" />
+    <ImageTarget name="lek3" size="0.200000 0.058843" />
+    <ImageTarget name="lek4" size="0.200000 0.154574" />
+  </Tracking>
+</QCARConfig>

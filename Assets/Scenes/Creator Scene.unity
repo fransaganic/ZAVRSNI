@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -472,8 +473,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a7c8e3c2a378f4b975107715a4543f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lesson: 0
-  _questions: []
+  _lesson: 5
+  _questions:
+  - QuestionText: "Koji od sljede\u0107ih nije jedan od osnovnih 3 na\u010Dina realizacije
+      ra\u010Dunalne animacije?"
+    Answers:
+    - AnswerText: Fizikalno temeljena animacija
+      IsCorrect: 0
+    - AnswerText: "Animacija zadana klju\u010Dnim okvirima"
+      IsCorrect: 0
+    - AnswerText: MoCap
+      IsCorrect: 0
+    - AnswerText: Frame Dropping animacija
+      IsCorrect: 1
+  - QuestionText: "Klju\u010Dni okvir mora sadr\u017Eavati podatke samo o polo\u017Eaju,
+      orijentaciji i skali objekta?"
+    Answers:
+    - AnswerText: "To\u010Dno"
+      IsCorrect: 0
+    - AnswerText: "Neto\u010Dno"
+      IsCorrect: 1
+  - QuestionText: "Koji je najjednostavniji ure\u0111iva\u010D od ova tri?"
+    Answers:
+    - AnswerText: Lista snimanja
+      IsCorrect: 0
+    - AnswerText: Vremenska linija
+      IsCorrect: 1
+    - AnswerText: "Ure\u0111iva\u010D grafova"
+      IsCorrect: 0
+  - QuestionText: "Koji je najdetaljniji ure\u0111iva\u010D od ova tri?"
+    Answers:
+    - AnswerText: Lista snimanja
+      IsCorrect: 0
+    - AnswerText: Vremenska linija
+      IsCorrect: 0
+    - AnswerText: "Ure\u0111iva\u010D grafova"
+      IsCorrect: 1
+  - QuestionText: "Markeri se koriste kao okida\u010Di za pokretanje \u010Desti\u010Dnog
+      sustava ili vizualnog u\u010Dinka?"
+    Answers:
+    - AnswerText: "To\u010Dno"
+      IsCorrect: 1
+    - AnswerText: "Neto\u010Dno"
+      IsCorrect: 0
+  - QuestionText: "Koji je ina\u010De po\u010Detni zadani na\u010Din interpolacije
+      u ure\u0111iva\u010Dima?"
+    Answers:
+    - AnswerText: Bezier
+      IsCorrect: 1
+    - AnswerText: Linearna
+      IsCorrect: 0
+    - AnswerText: Konstantna
+      IsCorrect: 0
+  - QuestionText: "Koji vrstu interpolacije \u0107emo koristiti za nagle kretnje
+      robota?"
+    Answers:
+    - AnswerText: Bezier
+      IsCorrect: 0
+    - AnswerText: Linearna
+      IsCorrect: 1
+  - QuestionText: Kako se zovu oznake koje se stavljaju na glumce prilikom uzorkovanja
+      pokreta MoCap?
+    Answers:
+    - AnswerText: Ekstremi
+      IsCorrect: 0
+    - AnswerText: Markeri
+      IsCorrect: 1
+    - AnswerText: Pointovi
+      IsCorrect: 0
+    - AnswerText: Tiketi
+      IsCorrect: 0
+  - QuestionText: "Prilikom uzorkovanja pokreta MoCap dovoljna nam je samo jedna
+      kamera za pra\u0107enje glumca?"
+    Answers:
+    - AnswerText: Tono
+      IsCorrect: 0
+    - AnswerText: "Neto\u010Dno"
+      IsCorrect: 1
+  - QuestionText: "Kod koje vrste animacije su nam bitni parametri kao trenje i te\u017Eina
+      objekta?"
+    Answers:
+    - AnswerText: Fizikalno temeljena animacija
+      IsCorrect: 1
+    - AnswerText: "Animacija zadana klju\u010Dnim okvirima"
+      IsCorrect: 0
+    - AnswerText: MoCap animacija
+      IsCorrect: 0
 --- !u!1 &1748647978
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,8 +603,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8c62629f0b4cc4896d2e29b27232c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lesson: 0
-  _lessonElements: []
+  _lesson: 5
+  _lessonElements:
+  - LessonImageFilePath: slika-klijent-posluzitelj
+    LessonText: Neki tekst
+  - LessonImageFilePath: slika-lopte
+    LessonText: Nesto
 --- !u!1 &1810420935
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ namespace ARudzbenik.General
 {
     public class RemoteDataFetcher : SingletonBehaviour<RemoteDataFetcher>
     {
-        private const string _SERVER_IP_ADDRESS = "localhost:8000"; // CHANGE TO LOCAL SERVER IP
+        private const string _SERVER_IP_ADDRESS = "http://192.168.1.162:8000"; // CHANGE TO LOCAL SERVER IP
 
         protected override void Awake()
         {

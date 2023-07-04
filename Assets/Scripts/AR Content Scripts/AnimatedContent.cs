@@ -11,7 +11,7 @@ namespace ARudzbenik.ARContent
         public static Action OnReplayAnimationAction = null;
         public static Action OnStopAnimationAction = null;
 
-        private const string _DEFAULT_STATE = "Idle";
+        private const string _DEFAULT_STATE = "Idle";   
 
         [SerializeField] private bool _useFunctionality = false;
 
@@ -39,6 +39,7 @@ namespace ARudzbenik.ARContent
 
         private void OnEnable()
         {
+            Debug.Log("Ucitao i pokrenuo");
             _animator.enabled = true;
             _animator.Play(_DEFAULT_STATE);
             _isActive = true;
@@ -47,12 +48,14 @@ namespace ARudzbenik.ARContent
 
         private void OnDisable()
         {
+            Debug.Log("NESTAO valjda");
             _isActive = false;
             OnAnimatedContentHideAction?.Invoke();
         }
 
         private void OnPlay()
         {
+            Debug.Log("PLAY pritisnut");
             if (_isActive) _animator.enabled = true;
         }
 
@@ -60,6 +63,7 @@ namespace ARudzbenik.ARContent
         {
             if (_isActive)
             {
+                Debug.Log("REPLAY pritisnut");
                 _animator.enabled = true;
                 _animator.Play(_DEFAULT_STATE);
             }
@@ -67,6 +71,7 @@ namespace ARudzbenik.ARContent
 
         private void OnStop()
         {
+            Debug.Log("DISABLE pritisnut");
             if (_isActive) _animator.enabled = false;
         }
     }
